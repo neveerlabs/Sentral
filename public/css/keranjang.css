@@ -1,0 +1,220 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background: #fafafa;
+  color: #1e293b;
+}
+
+.user-tab-btn {
+  transition: all 0.2s;
+  position: relative;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  border-bottom: 2px solid transparent;
+}
+.user-tab-btn.active {
+  color: #f97316;
+  border-bottom-color: #f97316;
+}
+.user-tab-btn:hover {
+  color: #f97316;
+}
+
+.admin-tabs-container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+.admin-tabs-container::-webkit-scrollbar {
+  height: 4px;
+}
+.admin-tabs-container::-webkit-scrollbar-track {
+  background: #e5e7eb;
+  border-radius: 10px;
+}
+.admin-tabs-container::-webkit-scrollbar-thumb {
+  background: #f97316;
+  border-radius: 10px;
+}
+
+.admin-tab-btn {
+  transition: all 0.2s;
+  background-color: #f3f4f6;
+  color: #374151;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.admin-tab-btn.active {
+  background-color: #f97316;
+  color: white;
+}
+.admin-tab-btn:not(.active):hover {
+  background-color: #e5e7eb;
+}
+
+.cart-item {
+  transition: all 0.25s ease;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  margin-bottom: 0.75rem;
+}
+.cart-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.quantity-btn {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.quantity-btn:hover {
+  background: #e2e8f0;
+}
+.quantity-btn:active {
+  transform: scale(0.96);
+}
+
+.checkout-btn {
+  transition: all 0.2s;
+  background: #f97316;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.checkout-btn:hover {
+  background: #ea580c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(249,115,22,0.2);
+}
+
+.empty-cart svg {
+  width: 80px;
+  height: 80px;
+  color: #cbd5e1;
+  margin-bottom: 1rem;
+}
+
+.order-card {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  transition: box-shadow 0.2s;
+  margin-bottom: 1.25rem;
+}
+.order-card:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+.order-header {
+  background: #f8fafc;
+  padding: 1rem;
+  border-bottom: 1px solid #eef2f6;
+}
+.order-items {
+  padding: 1rem;
+}
+.order-item {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.order-item:last-child {
+  border-bottom: none;
+}
+.order-item img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  background: #f1f5f9;
+}
+.order-item-details {
+  flex: 1;
+}
+.order-item-name {
+  font-weight: 600;
+  color: #0f172a;
+}
+.order-item-price {
+  font-size: 0.875rem;
+  color: #f97316;
+}
+.order-item-quantity {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+.order-total {
+  font-weight: 700;
+  color: #f97316;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.status-pending { background: #fef9c3; color: #854d0e; }
+.status-processing { background: #dbeafe; color: #1e40af; }
+.status-shipped { background: #cffafe; color: #0e7490; }
+.status-cancelled { background: #fee2e2; color: #b91c1c; }
+.status-delivered { background: #dcfce7; color: #166534; }
+
+input[type="radio"], input[type="checkbox"] {
+  accent-color: #f97316;
+}
+
+.payment-method {
+  background: #f8fafc;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.modal-backdrop {
+  backdrop-filter: blur(2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .cart-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cart-item .item-actions {
+    justify-content: space-between;
+  }
+  .order-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .admin-tab-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+  }
+}

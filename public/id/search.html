@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sentral Plastik | Pencarian</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23F97316'/%3E%3Ctext x='50' y='67' font-size='48' text-anchor='middle' fill='%23FFFFFF' font-family='Arial' font-weight='bold'%3ESP%3C/text%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/search.css">
+</head>
+<body class="bg-white font-sans antialiased">
+
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 py-3">
+      <div class="flex items-end justify-between gap-4">
+        <div class="flex-1">
+          <h1 class="text-lg font-bold text-orange-500 mb-2">Sentral Plastik</h1>
+          <div class="relative">
+            <input type="text" id="searchInput" placeholder="Cari produk..." class="search-input w-full py-2 pl-4 pr-10 text-sm text-gray-700 placeholder-gray-400">
+            <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <div id="userProfileBtn" class="w-8 h-8 rounded-full cursor-pointer hover:bg-gray-100 transition overflow-hidden flex items-center justify-center">
+            <img id="profileImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%238f9bb3'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="user" class="w-full h-full object-cover">
+          </div>
+          <a href="/id/keranjang.html" id="cartIcon" class="relative w-8 h-8 rounded-full cursor-pointer hover:bg-gray-100 transition flex items-center justify-center">
+            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span id="cartCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 py-6 main-content">
+    <div id="searchInfo" class="mb-6">
+      <h2 class="text-xl font-bold text-gray-800" id="searchQueryDisplay"></h2>
+      <p id="resultCount" class="text-gray-500 text-sm mt-1"></p>
+    </div>
+
+    <div id="resultsSection" class="mb-12">
+      <div id="productsContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+      <div id="emptyState" class="hidden text-center py-16">
+        <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        </svg>
+        <p id="noResultMsg" class="text-gray-500 text-lg">Tidak ada produk ditemukan</p>
+        <p class="text-gray-400 text-sm mt-2">Coba gunakan kata kunci lain atau lihat rekomendasi di bawah.</p>
+      </div>
+    </div>
+
+    <div id="recommendationsSection">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Rekomendasi untuk Anda</h2>
+      <div id="recommendationsContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+    </div>
+
+    <div class="mt-12 flex justify-center">
+      <a href="#" id="whatsappButton"
+         target="_blank"
+         class="inline-flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg transition transform hover:scale-105">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="w-6 h-6" alt="WhatsApp">
+        <span>Tidak sesuai dengan apa yang Anda cari? Tanya via WhatsApp</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="bottom-nav-modern">
+    <div class="nav-item" data-nav="home">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      </svg>
+      <span class="nav-label">Beranda</span>
+    </div>
+    <div class="nav-item" data-nav="category">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <span class="nav-label">Kategori</span>
+    </div>
+    <div class="nav-item cart-item" data-nav="cart">
+      <div class="cart-icon-wrapper">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      </div>
+      <span class="nav-label">Keranjang</span>
+    </div>
+    <div class="nav-item" data-nav="about">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span class="nav-label">Tentang</span>
+    </div>
+    <div class="nav-item" data-nav="profile">
+      <img id="footerProfileImg" class="w-6 h-6 rounded-full object-cover" 
+           src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%239ca3af'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" 
+           alt="Profile">
+      <span class="nav-label">Saya</span>
+    </div>
+  </div>
+
+  <div id="profileDropdown" class="fixed hidden bg-white rounded-xl shadow-lg w-64 right-4 top-16 z-50 border border-gray-100">
+    <div class="p-4">
+      <div class="flex items-center gap-3 border-b pb-3 mb-2">
+        <img id="dropdownAvatar" class="w-12 h-12 rounded-full object-cover" src="">
+        <div>
+          <p id="dropdownName" class="font-semibold text-gray-800"></p>
+          <p id="dropdownEmail" class="text-xs text-gray-500"></p>
+        </div>
+      </div>
+      <button id="logoutBtn" class="w-full text-left py-2 px-3 text-sm text-red-600 hover:bg-gray-50 rounded-lg transition">Logout</button>
+    </div>
+  </div>
+
+  <script src="/js/search.js"></script>
+  <script>
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const nav = item.dataset.nav;
+        if (nav === 'home') window.location.href = '/';
+        else if (nav === 'category') window.location.href = '/kategori.html';
+        else if (nav === 'cart') window.location.href = '/id/keranjang.html';
+        else if (nav === 'about') window.location.href = '/id/tentang.html';
+        else if (nav === 'profile') window.location.href = '/id/profile.html';
+      });
+    });
+  </script>
+</body>
+</html>

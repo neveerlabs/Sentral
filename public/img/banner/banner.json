@@ -1,0 +1,34 @@
+{
+  "default": [
+    {
+      "image": "/img/banner/banner1.jpg",
+      "title": "Grosir Plastik Hemat",
+      "description": "Diskon s/d 40% untuk pembelian karton",
+      "button_text": "Belanja Sekarang",
+      "button_link": "/kategori.html"
+    },
+    {
+      "image": "/img/banner/banner2.jpg",
+      "title": "Plastik Ramah Lingkungan",
+      "description": "Bisa pakai ulang & biodegradable",
+      "button_text": "Lihat Produk",
+      "button_link": "/kategori.html?category=1"
+    },
+    {
+      "image": "/img/banner/banner3.jpg",
+      "title": "Gratis Ongkir",
+      "description": "Min. beli Rp150.000, area Jabodetabek",
+      "button_text": "Cek Promo",
+      "button_link": "/kategori.html"
+    }
+  ],
+  "loggedOut": [
+    {
+      "image": "/img/banner/promo.jpg",
+      "title": "Diskon 50% untuk Pengguna Baru!",
+      "description": "Khusus aplikasi Sentral Plastik",
+      "button_text": "Login Sekarang",
+      "button_link": "/id/login.html"
+    }
+  ]
+}

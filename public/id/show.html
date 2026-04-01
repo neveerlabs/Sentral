@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sentral Plastik | Loading...</title>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23F97316'/%3E%3Ctext x='50' y='67' font-size='48' text-anchor='middle' fill='%23FFFFFF' font-family='Arial' font-weight='bold'%3ESP%3C/text%3E%3C/svg%3E">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styling.css">
+  <link rel="stylesheet" href="/css/show.css">
+  <style>
+    .product-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .bottom-nav-modern {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid #eef2f6;
+      padding: 6px 12px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      z-index: 40;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 0.6rem;
+      color: #9ca3af;
+      transition: all 0.2s;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .nav-item.active {
+      color: #f97316;
+    }
+
+    .nav-icon {
+      width: 22px;
+      height: 22px;
+      stroke-width: 1.5;
+      transition: all 0.2s;
+    }
+
+    .nav-item.cart-item {
+      position: relative;
+      top: -12px;
+      margin-bottom: -10px;
+    }
+
+    .cart-icon-wrapper {
+      background: #f97316;
+      border-radius: 40px;
+      padding: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
+    }
+
+    .cart-icon-wrapper .nav-icon {
+      width: 24px;
+      height: 24px;
+      stroke: white;
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    .cart-item .nav-label {
+      color: #f97316;
+      font-weight: 500;
+      font-size: 0.6rem;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 640px) {
+      .nav-icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      .cart-icon-wrapper .nav-icon {
+        width: 22px;
+        height: 22px;
+      }
+
+      .bottom-nav-modern {
+        padding: 4px 8px 8px;
+      }
+
+      .nav-item {
+        font-size: 0.55rem;
+      }
+
+      .cart-item {
+        top: -10px;
+      }
+    }
+
+    .share-modal {
+      transition: opacity 0.25s ease;
+    }
+
+    .share-modal-backdrop {
+      transition: opacity 0.25s ease;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(2px);
+    }
+
+    .share-modal-content {
+      max-width: 500px;
+      width: 90%;
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .share-link-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #f3f4f6;
+      border-radius: 0.75rem;
+      padding: 0.5rem 1rem;
+    }
+
+    .share-link-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      font-size: 0.875rem;
+      color: #1f2937;
+      outline: none;
+      padding: 0;
+    }
+
+    .copy-btn {
+      background: #f97316;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: #ea580c;
+    }
+
+    .copy-feedback {
+      font-size: 0.75rem;
+      color: #10b981;
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+
+    .product-image-container {
+      position: relative;
+      width: 100%;
+      padding-top: 100%;
+      overflow: hidden;
+      border-radius: 1rem;
+      background: #f3f4f6;
+    }
+
+    .product-image-container img,
+    .product-image-container video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      padding-top: 100%;
+      overflow: hidden;
+      border-radius: 1rem;
+      background: #f3f4f6;
+    }
+
+    .carousel-track {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      transition: transform 0.3s ease;
+    }
+
+    .carousel-slide {
+      flex: 0 0 100%;
+      height: 100%;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: background 0.2s;
+    }
+
+    .carousel-btn:hover {
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .carousel-prev {
+      left: 0.5rem;
+    }
+
+    .carousel-next {
+      right: 0.5rem;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 0.5rem;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .carousel-dot.active {
+      background: white;
+      width: 20px;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .carousel-btn {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    .product-image-container {
+      position: relative;
+      width: 100%;
+      padding-top: 100%;
+      overflow: hidden;
+      border-radius: 1rem;
+      background: #f3f4f6;
+    }
+
+    .product-image-container video,
+    .product-image-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    #volumeToggle {
+      position: absolute;
+      bottom: 0.75rem;
+      right: 0.75rem;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 9999px;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      cursor: pointer;
+      z-index: 20;
+    }
+
+    #volumeToggle:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    @media (max-width: 640px) {
+      #volumeToggle {
+        bottom: 0.5rem;
+        right: 0.5rem;
+        padding: 0.35rem;
+      }
+
+      #volumeToggle svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 font-sans antialiased">
+
+  <main>
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <button id="backBtn" class="p-1 -ml-1 rounded-full hover:bg-gray-100 transition active:scale-95">
+            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+          </button>
+          <button id="shareBtn" class="p-1 rounded-full hover:bg-gray-100 transition active:scale-95">
+            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+            </svg>
+          </button>
+        </div>
+        <div class="flex-1 overflow-hidden">
+          <h1 id="productName" class="text-lg font-semibold text-gray-800 truncate">Loading...</h1>
+        </div>
+        <a href="/id/keranjang.html" id="cartIcon"
+          class="relative w-8 h-8 rounded-full cursor-pointer hover:bg-gray-100 transition flex items-center justify-center">
+          <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <span id="cartCount"
+            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 pt-6 pb-20">
+      <div id="productDetail" class="space-y-6">
+        <div class="flex justify-center py-12">
+          <div class="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-nav-modern">
+      <div class="nav-item" data-nav="home">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        <span class="nav-label">Beranda</span>
+      </div>
+      <div class="nav-item" data-nav="category">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <span class="nav-label">Kategori</span>
+      </div>
+      <div class="nav-item cart-item" data-nav="cart">
+        <div class="cart-icon-wrapper">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        </div>
+        <span class="nav-label">Keranjang</span>
+      </div>
+      <div class="nav-item" data-nav="about">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span class="nav-label">Tentang</span>
+      </div>
+      <div class="nav-item" data-nav="profile">
+        <img id="footerProfileImg" class="w-6 h-6 rounded-full object-cover"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%239ca3af'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
+          alt="Profile">
+        <span class="nav-label">Saya</span>
+      </div>
+    </div>
+  </main>
+
+  <div id="shareModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+    <div class="share-modal-backdrop fixed inset-0" id="shareModalBackdrop"></div>
+    <div class="share-modal-content relative z-10 overflow-hidden">
+      <div class="px-6 pt-6 pb-3 border-b flex justify-between items-center">
+        <h2 class="text-xl font-bold text-gray-800">Bagikan Produk</h2>
+        <button id="closeShareModalBtn" class="close-icon focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="p-6 space-y-4">
+        <p class="text-sm text-gray-600">Salin link berikut untuk membagikan produk ini:</p>
+        <div class="share-link-container">
+          <input type="text" id="shareLinkInput" class="share-link-input" readonly value="">
+          <button id="copyLinkBtn" class="copy-btn">Salin</button>
+        </div>
+        <div id="copyFeedback" class="copy-feedback hidden">Link disalin ke clipboard!</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/show.js"></script>
+  <script>
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const nav = item.dataset.nav;
+        if (nav === 'home') {
+          window.location.href = '/';
+        } else if (nav === 'category') {
+          window.location.href = '/kategori.html';
+        } else if (nav === 'cart') {
+          window.location.href = '/id/keranjang.html';
+        } else if (nav === 'about') {
+          window.location.href = '/id/tentang.html';
+        } else if (nav === 'profile') {
+          window.location.href = '/id/profile.html';
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

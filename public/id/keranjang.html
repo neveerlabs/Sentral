@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sentral Plastik | Keranjang & Pesanan</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23F97316'/%3E%3Ctext x='50' y='67' font-size='48' text-anchor='middle' fill='%23FFFFFF' font-family='Arial' font-weight='bold'%3ESP%3C/text%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/keranjang.css">
+  <style>
+    .main-container {
+      padding-bottom: 80px;
+    }
+    @media (max-width: 640px) {
+      .main-container {
+        padding-bottom: 70px;
+      }
+    }
+    .bottom-nav-modern {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid #eef2f6;
+      padding: 6px 12px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      z-index: 40;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.02);
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 0.6rem;
+      color: #9ca3af;
+      transition: all 0.2s;
+      cursor: pointer;
+      flex: 1;
+    }
+    .nav-item.active {
+      color: #f97316;
+    }
+    .nav-icon {
+      width: 22px;
+      height: 22px;
+      stroke-width: 1.5;
+      transition: all 0.2s;
+    }
+    .nav-item.cart-item {
+      position: relative;
+      top: -12px;
+      margin-bottom: -10px;
+    }
+    .cart-icon-wrapper {
+      background: #f97316;
+      border-radius: 40px;
+      padding: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
+    }
+    .cart-icon-wrapper .nav-icon {
+      width: 24px;
+      height: 24px;
+      stroke: white;
+      fill: none;
+      stroke-width: 1.8;
+    }
+    .cart-item .nav-label {
+      color: #f97316;
+      font-weight: 500;
+      font-size: 0.6rem;
+      margin-top: 2px;
+    }
+    @media (max-width: 640px) {
+      .nav-icon {
+        width: 20px;
+        height: 20px;
+      }
+      .cart-icon-wrapper .nav-icon {
+        width: 22px;
+        height: 22px;
+      }
+      .bottom-nav-modern {
+        padding: 4px 8px 8px;
+      }
+      .nav-item {
+        font-size: 0.55rem;
+      }
+      .cart-item {
+        top: -10px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+
+  <div class="container mx-auto px-4 py-3 max-w-6xl main-container">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-xl font-bold text-gray-800 tracking-tight">Keranjang</h1>
+      <a href="/" class="text-orange-500 hover:text-orange-600 transition flex items-center gap-2 text-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Kembali
+      </a>
+    </div>
+
+    <div id="userTabs" class="flex border-b border-gray-200 mb-6">
+      <button id="tabCart" class="user-tab-btn">Keranjang</button>
+      <button id="tabOrders" class="user-tab-btn">Pesanan Saya</button>
+    </div>
+
+    <div id="adminTabs" class="hidden"></div>
+
+    <div id="cartContent" class="min-h-[400px]">
+      <div class="flex justify-center items-center py-12">
+        <svg class="animate-spin h-8 w-8 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div id="statusModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+    <div class="modal-backdrop fixed inset-0 bg-black/50 backdrop-blur-sm" id="statusModalBackdrop"></div>
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden">
+      <div class="px-6 pt-5 pb-3 border-b flex justify-between items-center">
+        <h2 class="text-lg font-bold text-gray-800">Update Status Pesanan</h2>
+        <button id="closeStatusModalBtn" class="text-gray-400 hover:text-gray-600 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="p-6 space-y-4">
+        <p class="text-sm text-gray-600">Ubah status pesanan <span id="modalOrderId" class="font-semibold"></span></p>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Status Baru</label>
+          <select id="statusSelect" class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+            <option value="pending">Menunggu Konfirmasi</option>
+            <option value="processing">Diproses</option>
+            <option value="shipped">Dalam Perjalanan</option>
+            <option value="delivered">Diterima</option>
+            <option value="cancelled">Dibatalkan</option>
+          </select>
+        </div>
+        <div class="flex justify-end gap-3 pt-2">
+          <button id="cancelStatusBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">Batal</button>
+          <button id="confirmStatusBtn" class="px-4 py-2 bg-orange-500 text-black rounded-lg hover:bg-orange-600 transition">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav-modern">
+    <div class="nav-item" data-nav="home">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      </svg>
+      <span class="nav-label">Beranda</span>
+    </div>
+    <div class="nav-item" data-nav="category">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <span class="nav-label">Kategori</span>
+    </div>
+    <div class="nav-item cart-item" data-nav="cart">
+      <div class="cart-icon-wrapper">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      </div>
+      <span class="nav-label">Keranjang</span>
+    </div>
+    <div class="nav-item" data-nav="about">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span class="nav-label">Tentang</span>
+    </div>
+    <div class="nav-item" data-nav="profile">
+      <img id="footerProfileImg" class="w-6 h-6 rounded-full object-cover" 
+           src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%239ca3af'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" 
+           alt="Profile">
+      <span class="nav-label">Saya</span>
+    </div>
+  </div>
+
+  <script src="/js/keranjang.js"></script>
+  <script>
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const nav = item.dataset.nav;
+        if (nav === 'home') {
+          window.location.href = '/';
+        } else if (nav === 'category') {
+          window.location.href = '/kategori.html';
+        } else if (nav === 'cart') {
+          window.location.href = '/id/keranjang.html';
+        } else if (nav === 'about') {
+          window.location.href = '/id/tentang.html';
+        } else if (nav === 'profile') {
+          window.location.href = '/id/profile.html';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

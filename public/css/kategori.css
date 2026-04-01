@@ -1,0 +1,116 @@
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.filter-container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filter-container::-webkit-scrollbar {
+  height: 4px;
+}
+.filter-container::-webkit-scrollbar-track {
+  background: #e5e7eb;
+  border-radius: 10px;
+}
+.filter-container::-webkit-scrollbar-thumb {
+  background: #f97316;
+  border-radius: 10px;
+}
+
+.cat-filter {
+  transition: all 0.2s;
+  background-color: #f3f4f6;
+  color: #374151;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cat-filter.active {
+  background-color: #f97316;
+  color: white;
+}
+.cat-filter:not(.active):hover {
+  background-color: #e5e7eb;
+}
+
+#categoryFilters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.modern-product-card {
+  background: white;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.modern-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+.modern-product-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+.modern-product-info {
+  padding: 0.75rem;
+}
+.modern-product-title {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #1f2937;
+  margin-bottom: 0.2rem;
+}
+.modern-product-sub {
+  font-size: 0.7rem;
+  color: #6b7280;
+  margin-bottom: 0.3rem;
+}
+.modern-product-price {
+  font-weight: 800;
+  color: #f97316;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+.modern-product-btn {
+  width: 100%;
+  background: #fef3c7;
+  color: #f97316;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.4rem 0;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.modern-product-btn:hover {
+  background: #fde68a;
+}
+
+@media (max-width: 640px) {
+  /* Perkecil gap produk */
+  #productsContainer {
+    gap: 0.25rem !important;
+  }
+
+  .cat-filter {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+  }
+
+  .modern-product-img {
+    height: auto;
+  }
+}

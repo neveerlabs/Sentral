@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sentral Plastik</title>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23F97316'/%3E%3Ctext x='50' y='67' font-size='48' text-anchor='middle' fill='%23FFFFFF' font-family='Arial' font-weight='bold'%3ESP%3C/text%3E%3C/svg%3E">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styling.css">
+  <style>
+    .search-input {
+      background: #f9fafb;
+      border-radius: 9999px;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      background: white;
+      box-shadow: 0 0 0 2px #f97316;
+      outline: none;
+    }
+
+    .carousel-track {
+      touch-action: pan-y pinch-zoom;
+      cursor: grab;
+    }
+
+    .carousel-track:active {
+      cursor: grabbing;
+    }
+
+    .product-list-item {
+      display: flex;
+      gap: 1rem;
+      background: white;
+      border-radius: 1rem;
+      padding: 0.75rem;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      transition: box-shadow 0.2s;
+    }
+
+    .product-list-item:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-list-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 0.75rem;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .product-list-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-list-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #1f2937;
+    }
+
+    .product-list-sub {
+      font-size: 0.7rem;
+      color: #6b7280;
+    }
+
+    .product-list-price {
+      font-weight: 700;
+      color: #f97316;
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    .product-list-btn {
+      background: #fef3c7;
+      color: #f97316;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .product-list-btn:hover {
+      background: #fde68a;
+    }
+
+    .modern-product-card {
+      background: white;
+      border-radius: 1.25rem;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .modern-product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .modern-product-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+    }
+
+    .modern-product-info {
+      padding: 0.75rem;
+    }
+
+    .modern-product-title {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #1f2937;
+      margin-bottom: 0.2rem;
+    }
+
+    .modern-product-sub {
+      font-size: 0.7rem;
+      color: #6b7280;
+      margin-bottom: 0.3rem;
+    }
+
+    .modern-product-price {
+      font-weight: 800;
+      color: #f97316;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .modern-product-btn {
+      width: 100%;
+      background: #fef3c7;
+      color: #f97316;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.4rem 0;
+      border-radius: 9999px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .modern-product-btn:hover {
+      background: #fde68a;
+    }
+
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    .bottom-nav-modern {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid #eef2f6;
+      padding: 6px 12px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      z-index: 40;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 0.6rem;
+      color: #9ca3af;
+      transition: all 0.2s;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .nav-item.active {
+      color: #f97316;
+    }
+
+    .nav-icon {
+      width: 22px;
+      height: 22px;
+      stroke-width: 1.5;
+      transition: all 0.2s;
+    }
+
+    .nav-item.cart-item {
+      position: relative;
+      top: -12px;
+      margin-bottom: -10px;
+    }
+
+    .cart-icon-wrapper {
+      background: #f97316;
+      border-radius: 40px;
+      padding: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
+    }
+
+    .cart-icon-wrapper .nav-icon {
+      width: 24px;
+      height: 24px;
+      stroke: white;
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    .cart-item .nav-label {
+      color: #f97316;
+      font-weight: 500;
+      font-size: 0.6rem;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 640px) {
+      .nav-icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      .cart-icon-wrapper .nav-icon {
+        width: 22px;
+        height: 22px;
+      }
+
+      .bottom-nav-modern {
+        padding: 4px 8px 8px;
+      }
+
+      .nav-item {
+        font-size: 0.55rem;
+      }
+
+      .cart-item {
+        top: -10px;
+      }
+    }
+
+    .carousel-cta {
+      display: inline-block;
+      margin-top: 0.5rem;
+      background: white;
+      color: #f97316;
+      font-weight: 600;
+      padding: 0.375rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      transition: background 0.2s;
+    }
+
+    .carousel-cta:hover {
+      background: #fef3c7;
+    }
+
+    @media (max-width: 640px) {
+      .carousel-cta {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.75rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-white font-sans antialiased">
+
+  <div id="splash-screen"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-orange-500 to-orange-600 transition-opacity duration-500">
+    <div class="text-center animate-fade-up">
+      <div class="w-24 h-24 mx-auto">
+        <svg class="w-full h-full text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+          <path d="M3 6h18" />
+          <path d="M16 10a4 4 0 0 1-8 0" />
+        </svg>
+      </div>
+      <div class="flex justify-center gap-2 mt-4">
+        <span class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: -0.32s"></span>
+        <span class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: -0.16s"></span>
+        <span class="w-2 h-2 bg-white rounded-full animate-bounce"></span>
+      </div>
+      <p class="text-white font-bold text-xl mt-2">SENTRAL PLASTIK</p>
+    </div>
+  </div>
+
+  <main id="main-app" style="display: none;">
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <div class="max-w-7xl mx-auto px-4 py-3">
+        <div class="flex items-end justify-between gap-4">
+          <div class="flex-1">
+            <h1 class="text-lg font-bold text-orange-500 mb-2">Sentral Plastik</h1>
+            <div class="relative">
+              <input type="text" id="searchInput" placeholder="Cari produk..." class="search-input w-full py-2 pl-4 pr-10 text-sm text-gray-700 placeholder-gray-400">
+              <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div id="userProfileBtn"
+              class="w-8 h-8 rounded-full cursor-pointer hover:bg-gray-100 transition overflow-hidden flex items-center justify-center">
+              <img id="profileImage"
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%238f9bb3'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
+                alt="user" class="w-full h-full object-cover">
+            </div>
+            <a href="/id/keranjang.html" id="cartIcon"
+              class="relative w-8 h-8 rounded-full cursor-pointer hover:bg-gray-100 transition flex items-center justify-center">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <span id="cartCount"
+                class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 pt-4 pb-2">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2 bg-amber-50 px-3 py-1.5 rounded-full">
+          <img
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='%23FBBF24'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"
+            alt="star">
+          <span class="text-sm font-bold text-orange-500">98%</span>
+          <span class="text-xs text-gray-500">32.500+ transaksi</span>
+        </div>
+        <div class="flex items-center gap-1 text-sm text-gray-600 bg-gray-50 px-3 py-1.5 rounded-full flex-1 min-w-0">
+          <img
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='%232b6e3c'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'/%3E%3C/svg%3E"
+            alt="location">
+          <div class="overflow-x-auto scrollbar-hide w-full" style="scroll-behavior: smooth; white-space: nowrap;">
+            <a href="https://maps.app.goo.gl/7mt6g4sjFsLaig9W8" target="_blank"
+              class="hover:text-orange-500 transition inline-block">
+              Jl. Raya Sukabumi No.16, Pamuruyan, Kec. Cibadak, Kabupaten Sukabumi, Jawa Barat 43351
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative overflow-hidden mb-6">
+      <div id="carouselTrack" class="flex transition-transform duration-500 cursor-grab">
+      </div>
+      <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-2" id="carouselDots"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 mb-2">
+      <div id="categoriesContainer" class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 pt-0 pb-6">
+      <div class="mb-8">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold text-gray-800">Spesial Hari Ini</h2>
+          <a href="kategori.html"
+            class="text-orange-500 text-sm font-medium flex items-center gap-1 hover:underline">Lihat semua
+            →</a>
+        </div>
+        <div id="specialProductsContainer" class="space-y-3">
+        </div>
+      </div>
+
+      <div class="mb-8">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold text-gray-800">Produk Unggulan</h2>
+          <a href="kategori.html" class="text-orange-500 text-sm font-medium hover:underline">Lihat semua</a>
+        </div>
+        <div id="featuredProductsContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-nav-modern">
+      <div class="nav-item" data-nav="home">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        <span class="nav-label">Beranda</span>
+      </div>
+      <div class="nav-item" data-nav="category">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <span class="nav-label">Kategori</span>
+      </div>
+      <div class="nav-item cart-item" data-nav="cart">
+        <div class="cart-icon-wrapper">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        </div>
+        <span class="nav-label">Keranjang</span>
+      </div>
+      <div class="nav-item" data-nav="about">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span class="nav-label">Tentang</span>
+      </div>
+      <div class="nav-item" data-nav="profile">
+        <img id="footerProfileImg" class="w-6 h-6 rounded-full object-cover"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%239ca3af'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
+          alt="Profile">
+        <span class="nav-label">Saya</span>
+      </div>
+    </div>
+  </main>
+
+  <div id="profileDropdown"
+    class="fixed hidden bg-white rounded-xl shadow-lg w-64 right-4 top-16 z-50 border border-gray-100">
+    <div class="p-4">
+      <div class="flex items-center gap-3 border-b pb-3 mb-2">
+        <img id="dropdownAvatar" class="w-12 h-12 rounded-full object-cover" src="">
+        <div>
+          <p id="dropdownName" class="font-semibold text-gray-800"></p>
+          <p id="dropdownEmail" class="text-xs text-gray-500"></p>
+        </div>
+      </div>
+      <button id="logoutBtn"
+        class="w-full text-left py-2 px-3 text-sm text-red-600 hover:bg-gray-50 rounded-lg transition">Logout</button>
+    </div>
+  </div>
+
+  <script src="/js/script.js"></script>
+  <script>
+    // Fungsi pencarian: ketika Enter ditekan pada input pencarian
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+      searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          const query = searchInput.value.trim();
+          if (query) {
+            window.location.href = `/id/search.html?q=${encodeURIComponent(query)}`;
+          } else {
+            window.location.href = '/id/search.html';
+          }
+        }
+      });
+    }
+
+    // Navigasi bottom nav
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const nav = item.dataset.nav;
+        if (nav === 'home') {
+          window.location.href = '/';
+        } else if (nav === 'category') {
+          window.location.href = '/kategori.html';
+        } else if (nav === 'cart') {
+          window.location.href = '/id/keranjang.html';
+        } else if (nav === 'about') {
+          window.location.href = '/id/tentang.html';
+        } else if (nav === 'profile') {
+          window.location.href = '/id/profile.html';
+        }
+      });
+    });
+    if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+      document.querySelector('[data-nav="home"]').classList.add('active');
+    }
+  </script>
+</body>
+
+</html>
